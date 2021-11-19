@@ -1,4 +1,3 @@
-
 let authors = [];
 let genres = [];
 let booklist = [];
@@ -76,7 +75,7 @@ class UI {
         <td>${book.authorid}</td>
         <td>${book.genre}</td>
         <td>${bookGenre.genreid}</td>
-        <td><button class="delete">X</button></td>
+        <td><a href="" class="delete">X</a></td>
         `;
         list.appendChild(row);         
     }
@@ -84,7 +83,6 @@ class UI {
     deleteBook(target) {
       if(target.className === 'delete') {
         target.parentElement.parentElement.remove();
-        
       }
     }
    
@@ -92,7 +90,7 @@ class UI {
 
 
 
-const ui = new UI();
+
 //submit author 
 document.getElementById('author-form').addEventListener('submit', function(e){
     const authorfname = document.getElementById('authorfname').value;
@@ -100,6 +98,7 @@ document.getElementById('author-form').addEventListener('submit', function(e){
     const authorid = document.getElementById('authorid').value;
 
     const author = new Author(authorfname, authorlname, authorid);
+    const ui = new UI();
  
     authors.push(author);
     ui.addAuthor();
@@ -115,6 +114,7 @@ document.getElementById('genre-form').addEventListener('submit', function(e){
     const genreid = document.getElementById('genreid').value;
 
     const genred  = new Genre(genre, genreid);
+    const ui = new UI();
   genres.push(genred);
   ui.addGenre();
     e.preventDefault();
@@ -128,17 +128,19 @@ document.getElementById('book-creator').addEventListener('submit', function(e) {
   const formData = new FormData(e.target);
   
   const title = formData.get('title');
-  const id = formData.get('id');
+ // const id = formData.get('id');
   const released = formData.get('released');
   const authorid = formData.get('author');
   const genre = formData.get('genre');
+
  
     
 
 
-  const book = new Book(title, id, released, authorid, genre);
+  const book = new Book(title, /*id */ released, authorid, genre);
 
-
+  const ui = new UI();
+ 
 
 // //Methods
 booklist.push(book);
@@ -149,6 +151,7 @@ console.log(book)
 })
 
 document.getElementById('table__body').addEventListener('click', function(e){
+  const ui = new UI();
   ui.deleteBook(e.target);
   e.preventDefault();
 })
@@ -160,8 +163,8 @@ function myFunction() {
   input = document.getElementById('search__form-input');
   filter = input.value.toUpperCase();
   tbody = document.getElementById('table__body');
- // tr = tbody.getElementsByTagName('tr');
-
+  tr = tbody.getElementsByTagName('tr');
+  
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName('td')[0];
     txtValue = td.textContent || td.innerText;
@@ -173,4 +176,3 @@ function myFunction() {
     }
   }
 }
-
