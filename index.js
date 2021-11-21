@@ -23,21 +23,19 @@ class Genre {
 
     
 }
+
 class Book {
-  
      constructor(title, released, authorid, genre){
         this.title = title;
-        this.bookid = '#' + Math.floor(Math.random() * 100000); 
+        this.bookid = '#' + Math.floor(Math.random() * 100000);
         this.released = released; 
         this.authorid = authorid;
         this.genre = genre;
-    
-       
-    
-        
     }
 }
+
 class UI {
+
    addAuthor() {
         const authorcreator = document.getElementById('book-creator__author');
         const newOption = document.createElement('option');
@@ -58,16 +56,15 @@ class UI {
         const title = document.getElementById('title').value = '';
         const released = document.getElementById('released').value = '';
     }
-    addBook(book){
+
+  addBook(book){
       const bookAuthor = authors.find(author => author.authorid === book.authorid);
       const bookGenre = genres.find( genre => genre.genre === book.genre)
-      
-      console.log(bookAuthor)
-   
-        const list = document.getElementById('table__body');
-        const row = document.createElement('tr'); 
+      const list = document.getElementById('table__body');
+      const row = document.createElement('tr'); 
+
         row.innerHTML = `
-        <td>${book.title}</td>
+        <td data-book-title="${book.title}" id="title">${book.title}</td>
         <td>${bookAuthor.authorfname}</td>
         <td>${bookAuthor.authorlname}</td>
         <td>${book.bookid}</td>
@@ -75,74 +72,67 @@ class UI {
         <td>${book.authorid}</td>
         <td>${book.genre}</td>
         <td>${bookGenre.genreid}</td>
-        <td><a href="" class="delete">X</a></td>
+        <td><button value="delete" class="delete" id="delete" data-book-id="${book.bookid}">X</button></td>
         `;
         list.appendChild(row);         
     }
    
-    deleteBook(target) {
-      if(target.className === 'delete') {
-        target.parentElement.parentElement.remove();
-      }
+  deleteBook(target) {
+     if(target.className === 'delete') {
+     target.parentElement.parentElement.remove();
+   }}
+  
+  deleteBookData(target) {
+     if(target.className === 'delete') {
+      let deleteBook = document.getElementById('delete');
+      let bookID = deleteBook.getAttribute('data-book-id');
+      booklist = booklist.filter(book => book.bookid !== bookID);
+     }
     }
-   
-}
+    displayBooks() {
+
+    }
+  }
 
 
-
-
+const ui = new UI();
 //submit author 
 document.getElementById('author-form').addEventListener('submit', function(e){
+
     const authorfname = document.getElementById('authorfname').value;
     const authorlname = document.getElementById('authorlname').value;
     const authorid = document.getElementById('authorid').value;
-
     const author = new Author(authorfname, authorlname, authorid);
-    const ui = new UI();
- 
+    
     authors.push(author);
     ui.addAuthor();
     e.preventDefault();
-
-    
-
 })
 
 //submit genre
 document.getElementById('genre-form').addEventListener('submit', function(e){
+
     const genre = document.getElementById('genre').value;
     const genreid = document.getElementById('genreid').value;
-
     const genred  = new Genre(genre, genreid);
-    const ui = new UI();
+
   genres.push(genred);
   ui.addGenre();
-    e.preventDefault();
+  e.preventDefault();
 })
 
 
 // Book create
 document.getElementById('book-creator').addEventListener('submit', function(e) {
-  e.preventDefault();
-  console.log({ e });
+
   const formData = new FormData(e.target);
-  
   const title = formData.get('title');
- // const id = formData.get('id');
   const released = formData.get('released');
   const authorid = formData.get('author');
   const genre = formData.get('genre');
+  const book = new Book(title, released, authorid, genre);
 
- 
-    
-
-
-  const book = new Book(title, /*id */ released, authorid, genre);
-
-  const ui = new UI();
- 
-
-// //Methods
+e.preventDefault();
 booklist.push(book);
 ui.addBook(book); 
 ui.clearFields();
@@ -150,15 +140,36 @@ console.log(book)
 
 })
 
-document.getElementById('table__body').addEventListener('click', function(e){
-  const ui = new UI();
+// Delete book
+document.getElementById('table__body').addEventListener("click", function(e) {
+ 
+  ui.deleteBookData(e.target);
   ui.deleteBook(e.target);
   e.preventDefault();
+  
 })
+
+
+// Filter book 2.0 
+
+let filterInput = document.getElementById('search__form-input');
+
+filterInput.addEventListener('keyup', (e) => {;
+  const searchString = e.target.value;
+ const filteredBooks =  booklist.filter(book => {
+  return book.title.includes(searchString)
+  });
+  console.log(filteredBooks)
+
+  // Nie wiem jak zrobić tę metodę
+  ui.displayBooks(filteredBooks);
+});
+
+
 
 //Filter book
 
-function myFunction() {
+/*  function myFunction() {
   let input, filter, tbody, tr, td, i, txtValue ;
   input = document.getElementById('search__form-input');
   filter = input.value.toUpperCase();
@@ -175,4 +186,6 @@ function myFunction() {
       tr[i].style.display = 'none';
     }
   }
-}
+} 
+*/
+
