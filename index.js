@@ -76,6 +76,29 @@ class UI {
         `;
         list.appendChild(row);         
     }
+    displayBooks(filteredBooks) {
+      const tableBody = document.getElementById('table__body')
+      const row = document.createElement('tr'); 
+      const filteredTable = filteredBooks.map((book, bookAuthor, bookGenre) => {
+        return row.innerHTML = `
+        <td data-book-title="${book.title}" id="title">${book.title}</td>
+        <td>${bookAuthor.authorfname}</td>
+        <td>${bookAuthor.authorlname}</td>
+        <td>${book.bookid}</td>
+        <td>${book.released}</td>
+        <td>${book.authorid}</td>
+        <td>${book.genre}</td>
+        <td>${bookGenre.genreid}</td>
+        <td><button value="delete" class="delete" id="delete" data-book-id="${book.bookid}">X</button></td>
+        </tr>
+        `
+      });
+
+      tableBody.innerHTML = filteredTable;
+      tableBody.appendChild(row);
+      
+      
+    }
    
   deleteBook(target) {
      if(target.className === 'delete') {
@@ -88,9 +111,6 @@ class UI {
       let bookID = deleteBook.getAttribute('data-book-id');
       booklist = booklist.filter(book => book.bookid !== bookID);
      }
-    }
-    displayBooks() {
-
     }
   }
 
@@ -161,8 +181,9 @@ filterInput.addEventListener('keyup', (e) => {;
   });
   console.log(filteredBooks)
 
-  // Nie wiem jak zrobić tę metodę
+  
   ui.displayBooks(filteredBooks);
+  e.preventDefault();
 });
 
 
