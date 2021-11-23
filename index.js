@@ -113,7 +113,7 @@ class UI {
      }
     }
   }
-
+function dupa ();
 
 const ui = new UI();
 //submit author 
