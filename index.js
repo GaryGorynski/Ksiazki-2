@@ -188,25 +188,82 @@ filterInput.addEventListener('keyup', (e) => {;
 
 
 
-//Filter book
 
-/*  function myFunction() {
-  let input, filter, tbody, tr, td, i, txtValue ;
-  input = document.getElementById('search__form-input');
-  filter = input.value.toUpperCase();
-  tbody = document.getElementById('table__body');
-  tr = tbody.getElementsByTagName('tr');
-  
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName('td')[0];
-    txtValue = td.textContent || td.innerText;
-    if(txtValue.toUpperCase().indexOf(filter) > -1)
-    {
-      tr[i].style.display = '';
-    } else {
-      tr[i].style.display = 'none';
-    }
-  }
-} 
-*/
+function fetchBooks() {
+  fetch('https://wolnelektury.pl/api/books')
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    const html = data.map(book => {
+      return `
+      <li data-book-title=${book.title}><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal'>${book.title}</a></li>
+      `
+    }).join('');
+    document.getElementById('booksOl').innerHTML = html;
+    })
+  .catch(error => console.log(error))
+}
+fetchBooks();
 
+
+function fetchAuthors() {
+  fetch('https://wolnelektury.pl/api/authors')
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    const html = data.map(author => {
+
+      return `
+      <li data-book-author=${author.name}><a href="#" data-bs-toggle="modal" data-bs-target='#myAuthorModal'>${author.name}</a></li>
+      `
+    }).join('');
+    document.getElementById('authorsOl').innerHTML = html;
+  })
+  .catch(error => console.log(error))
+}
+fetchAuthors();
+
+
+function fetchGenres() {
+  fetch('https://wolnelektury.pl/api/genres')
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    const html = data.map(genre => {
+
+      return `
+      <li data-book-genre=${genre.name}>${genre.name}</li>
+      `
+    }).join('');
+    document.getElementById('genresOl').innerHTML = html;
+  })
+  .catch(error => console.log(error))
+}
+fetchGenres();
+
+
+function fetchCollections() {
+  fetch('https://wolnelektury.pl/api/collections')
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    const html = data.map(collection => {
+      return `
+      <li data-book-collection=${collection.title}><a href="#" data-bs-toggle="modal" data-bs-target='#myModal'>${collection.title}</a></li>
+      `
+    }).join('');
+    document.getElementById('collectionsOl').innerHTML = html;
+  })
+  .catch(error => console.log(error))
+}
+fetchCollections();
+
+
+document.getElementById('booksOl').addEventListener('click', function(e){ 
+    console.log('test')
+   
+  })

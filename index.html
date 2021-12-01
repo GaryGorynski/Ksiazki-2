@@ -4,22 +4,101 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="bootstrap.js"></script>
    
     <title>Document</title>
 </head>
 <body>
+<div class="world">
+  
+    <ul class="nav nav-pills nav-fill mb-3" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="books-tab" data-bs-toggle="tab" data-bs-target="#books" type="button" role="tab" aria-controls="books" aria-selected="true">Books</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="authors-tab" data-bs-toggle="tab" data-bs-target="#authors" type="button" role="tab" aria-controls="authors" aria-selected="false">Authors</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="genres-tab" data-bs-toggle="tab" data-bs-target="#genres" type="button" role="tab" aria-controls="genres" aria-selected="false">Genres</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="collections-tab" data-bs-toggle="tab" data-bs-target="#collections" type="button" role="tab" aria-controls="collections" aria-selected="false">Collections</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane  show p-3" id="books" role="tabpanel" aria-labelledby="books-tab">
+        <ol id='booksOl' start="1">     
+        </ol>
+      </div>
+      <div class="tab-pane" id="authors" role="tabpanel" aria-labelledby="authors-tab">
+        <ol id='authorsOl' start="1">
+        
+        </ol>
+      </div>
+      <div class="tab-pane" id="genres" role="tabpanel" aria-labelledby="genres-tab">
+        <ol id='genresOl' start="1">
+        </ol>
+      </div>
+      <div class="tab-pane" id="collections" role="tabpanel" aria-labelledby="collections-tab">
+        <ol id='collectionsOl' start="1">
+        </ol>
+      </div>
+    </div>
   <div class="container">
-    <div class="row">
-      
+
+
+
+    <div class="modal" id="myBooksModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" id="modal-header">
+            <h5 class="modal-title" id="bookTitle">Tytuł książki</h5>
+          </div>
+          <div class="modal-body">
+            <div id="modalImg">Okładka</div>
+            <ol>
+              <li id="modalBookGenre">Gatunek:</li>
+              <li>Autor:</li>
+              <li>Język:</li>
+            </ol>
+          </div>
+          <div class="modal-footer">
+            <a href="#">Link do Audiobooka</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal" id="myAuthorModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" id="modal-header">
+            <h5 class="modal-title" id="bookTitle">Imię i Nazwisko</h5>
+          </div>
+          <div class="modal-body">
+           Opis
+           </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  
+
+
+    <div class="row  gap-4">
   <form class="form-horizontal" id="author-form">
     <div class="form-group">
       <div class="col-sm-11">
             <input class="form-control" id="authorfname" type="text" name="first_name" placeholder="Author first name">
             <input class="form-control" id="authorlname" type="text" name="last_name" placeholder="Author last name">
             <input class="form-control" id="authorid" type="text" name="first_name" placeholder="Author ID">
-            <button type="submit" class="btn btn-primary" value="create author">Create Author</button>
+            <button type="submit" class="btn btn-primary " value="create author">Create Author</button>
             </div>
           </div>
   </form>
@@ -53,15 +132,12 @@
         </form>
          
     </div>
-
+    <br><br>
      <form class="form-horizontal">
       <div class="col-sm-12">
          <input class="aa form-control" type="text" id="search__form-input" placeholder="Find book"> 
         </form>
       </div>
-
-
-
       <table class="table table-hover">
         <thead class="table__head">
             <tr>
@@ -73,37 +149,15 @@
                 <th scope="row">Author ID</td>
                 <th scope="row">Genre</td>
                 <th scope="row">Genre ID</td>
-                <th class="table__data-delete" scope="row">x</td>
+                  <th class="table__data-delete" scope="row">x</td>
             </tr>
           </thead>
         <tbody  id="table__body">
          
         </tbody>
       </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
-  <script src="index.js"></script>  
-  <script src="/js/bootstrap.min.js"></script>
+ 
+<script src="index.js"></script>  
 </body>
 </html>

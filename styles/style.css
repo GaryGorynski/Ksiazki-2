@@ -1,6 +1,11 @@
-form {
+.world {
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.container {
   margin-top: 50px;
-  margin-left: 100px;
 }
 
 .table {
@@ -10,7 +15,48 @@ form {
   width: 100%;
 }
 
+.top-buffer {
+  margin-top: 100px;
+}
+
 tr, th {
   text-align: center;
+}
+
+.tab-pane {
+  border: 1px solid black;
+  font-size: 16px;
+}
+
+.tab-pane ol {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 600vh;
+}
+
+.modal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: red;
+}
+
+.modal-body ol li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=style.css.map */

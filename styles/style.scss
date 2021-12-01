@@ -1,17 +1,58 @@
-form {
-    margin-top: 50px;
-    margin-left: 100px;
+$nav-link-color:black; 
 
+
+.world{
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
 }
+.container {
+    margin-top: 50px;
+}
+
 .table {
+    
     height: 100px;
     text-align: center;
     border: 2px solid black;
     width: 100%;
+    
 }
-
+.top-buffer {
+    margin-top: 100px;
+}
 
 tr, th {
     text-align: center;
 }
 
+.tab-pane {
+   
+    border: 1px solid black;
+    font-size: 16px;
+    ol {
+        flex-direction: column;
+        flex-wrap: wrap;
+        display: flex;
+        height: 600vh;
+        
+     }
+
+}
+
+
+ 
+
+ .modal-header {
+   display: flex;
+   justify-content: center;
+     color: red;
+ }
+
+ .modal-body {
+    
+     ol li{
+         display: flex;
+         justify-content: center;
+     }
+ }
