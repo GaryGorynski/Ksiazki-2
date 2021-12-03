@@ -1,9 +1,3 @@
-.world {
-  width: 100%;
-  height: 100%;
-  border: 1px solid red;
-}
-
 .container {
   margin-top: 50px;
 }
@@ -41,6 +35,12 @@ tr, th {
   height: 600vh;
 }
 
+.modalImg {
+  margin: auto;
+  width: 100%;
+  height: 50%;
+}
+
 .modal-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -49,6 +49,14 @@ tr, th {
       -ms-flex-pack: center;
           justify-content: center;
   color: red;
+}
+
+.modal-footer {
+  display: block;
+}
+
+.modal-body {
+  height: auto;
 }
 
 .modal-body ol li {

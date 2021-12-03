@@ -197,7 +197,7 @@ function fetchBooks() {
   .then(data => {
     const html = data.map(book => {
       return `
-      <li data-book-title=${book.title}><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal'>${book.title}</a></li>
+      <li><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
       `
     }).join('');
     document.getElementById('booksOl').innerHTML = html;
@@ -205,6 +205,7 @@ function fetchBooks() {
   .catch(error => console.log(error))
 }
 fetchBooks();
+
 
 
 function fetchAuthors() {
@@ -216,7 +217,7 @@ function fetchAuthors() {
     const html = data.map(author => {
 
       return `
-      <li data-book-author=${author.name}><a href="#" data-bs-toggle="modal" data-bs-target='#myAuthorModal'>${author.name}</a></li>
+      <li data-book-author=${author.name}><a href="#" data-author-slug="${author.slug}" data-bs-toggle="modal" data-bs-target='#myAuthorModal'>${author.name}</a></li>
       `
     }).join('');
     document.getElementById('authorsOl').innerHTML = html;
@@ -253,7 +254,7 @@ function fetchCollections() {
   .then(data => {
     const html = data.map(collection => {
       return `
-      <li data-book-collection=${collection.title}><a href="#" data-bs-toggle="modal" data-bs-target='#myModal'>${collection.title}</a></li>
+      <li data-book-collection=${collection.title}><a href="${collection.url}" data-bs-target='#myModal'>${collection.title}</a></li>
       `
     }).join('');
     document.getElementById('collectionsOl').innerHTML = html;
@@ -263,7 +264,55 @@ function fetchCollections() {
 fetchCollections();
 
 
-document.getElementById('booksOl').addEventListener('click', function(e){ 
-    console.log('test')
-   
+document.getElementById('books').addEventListener('click', function(e){ 
+let bookClicked= e.target
+let bookSlug = bookClicked.getAttribute('data-book-slug');
+
+fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
+.then(response => {
+  return response.json();
+})
+.then(data => {
+  if(data.audio_length !== ""){ 
+    document.getElementById('modalAudio').href = data.media[0].url
+    document.getElementById('modalAudioType').innerHTML = "Typ pliku: " + data.media[0].type
+    document.getElementById('modalAudioSpeaker').innerHTML = "Czyta: " + data.media[0].artist
+    document.getElementById('modalAudioLength').innerHTML = "Długość trwania: " + data.audio_length
+  } else {
+    document.getElementById('modalAudio').href = "#"
+    document.getElementById('modalAudioType').innerHTML = "Brak audiobooka"
+    document.getElementById('modalAudioSpeaker').innerHTML = ""
+    document.getElementById('modalAudioLength').innerHTML = ""
+    
+  }
+  document.getElementById('bookTitle').innerHTML = data.title;
+  document.getElementById('modalBookAuth').innerHTML = 'Autor: ' + data.authors[0].name;
+  document.getElementById('modalBookGenre').innerHTML = 'Gatunki: ' + data.genres[0].name
+  document.getElementById('modalBookLang').innerHTML = 'Język:' + ' ' + data.language;
+  document.getElementById('modalBookImg').src = data.cover;
+  
+
+})
+});
+
+
+document.getElementById('authors').addEventListener('click', function(e) {
+  let authorClicked = e.target
+  let authorSlug = authorClicked.getAttribute('data-author-slug');
+
+  fetch(`https://wolnelektury.pl/api/authors/${authorSlug}`)
+  .then(response => {
+    return response.json();
   })
+  .then(data => {
+    document.getElementById('modalAuthor').innerHTML = data.name
+    document.getElementById('modalAuthorDesc').innerHTML = data.description
+  })
+  })
+
+  document.getElementById('collections').addEventListener('click',function(e) {
+
+    
+ 
+  })
+  

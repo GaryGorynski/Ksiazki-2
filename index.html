@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="styles/style.css">
     <script src="bootstrap.js"></script>
-   
-    <title>Document</title>
+    <title>Ksiazki</title>
 </head>
 <body>
 <div class="world">
-  
+
+  <!-- Pills/Tabs -->
     <ul class="nav nav-pills nav-fill mb-3" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="books-tab" data-bs-toggle="tab" data-bs-target="#books" type="button" role="tab" aria-controls="books" aria-selected="true">Books</button>
@@ -29,7 +29,7 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane  show p-3" id="books" role="tabpanel" aria-labelledby="books-tab">
-        <ol id='booksOl' start="1">     
+        <ol id='booksOl' class="booki" start="1">     
         </ol>
       </div>
       <div class="tab-pane" id="authors" role="tabpanel" aria-labelledby="authors-tab">
@@ -46,10 +46,10 @@
         </ol>
       </div>
     </div>
+
   <div class="container">
 
-
-
+    <!-- Book Modal -->
     <div class="modal" id="myBooksModal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -57,28 +57,31 @@
             <h5 class="modal-title" id="bookTitle">Tytuł książki</h5>
           </div>
           <div class="modal-body">
-            <div id="modalImg">Okładka</div>
+            <img src="" class="modalImg" id="modalBookImg" alt="">
             <ol>
               <li id="modalBookGenre">Gatunek:</li>
-              <li>Autor:</li>
-              <li>Język:</li>
+              <li id="modalBookAuth">Autor:</li>
+              <li id="modalBookLang">Język:</li>
             </ol>
           </div>
           <div class="modal-footer">
-            <a href="#">Link do Audiobooka</a>
+            <a href="#" id="modalAudio">Pobierz Audiobook</a>
+            <p id="modalAudioType"></p>
+            <p id="modalAudioSpeaker"></p>
+            <p id="modalAudioLength"></p>
           </div>
         </div>
       </div>
     </div>
 
-
+<!-- Author Modal -->
     <div class="modal" id="myAuthorModal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header" id="modal-header">
-            <h5 class="modal-title" id="bookTitle">Imię i Nazwisko</h5>
+            <h5 class="modal-title" id="modalAuthor">Imię i Nazwisko</h5>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="modalAuthorDesc">
            Opis
            </div>
           <div class="modal-footer">
@@ -90,73 +93,73 @@
 
   
 
-
-    <div class="row  gap-4">
+<!-- Inputs -->
+ <div class="row  gap-4">
   <form class="form-horizontal" id="author-form">
-    <div class="form-group">
-      <div class="col-sm-11">
-            <input class="form-control" id="authorfname" type="text" name="first_name" placeholder="Author first name">
-            <input class="form-control" id="authorlname" type="text" name="last_name" placeholder="Author last name">
-            <input class="form-control" id="authorid" type="text" name="first_name" placeholder="Author ID">
-            <button type="submit" class="btn btn-primary " value="create author">Create Author</button>
-            </div>
-          </div>
+   <div class="form-group">
+    <div class="col-sm-11">
+     <input class="form-control" id="authorfname" type="text" name="first_name" placeholder="Author first name">
+     <input class="form-control" id="authorlname" type="text" name="last_name" placeholder="Author last name">
+     <input class="form-control" id="authorid" type="text" name="first_name" placeholder="Author ID">
+      <button type="submit" class="btn btn-primary " value="create author">Create Author</button>
+    </div>
+   </div>
   </form>
     
-        <form class="form-horizontal" id="genre-form">
-          <div class="form-group">
-            <div class="col-sm-11">
-            <input class="form-control" id="genre" type="text" name="genre" placeholder="Genre">
-            <input  class="form-control" id="genreid" type="text" name="genreid" placeholder="Genre ID">
-            <button type="submit" class="btn btn-primary" value="create genre">Create Genre</button>
-          </div>
-        </div>
-        </form>
-     
-  
-        <form class="form-horizontal" id="book-creator">
-          <div class="form-group">
-            <div class="col-sm-11">
-            <input class="form-control" id="title" name="title" type="text" placeholder="Book title">
-            <input class="form-control" id="released" name="released" type="text" placeholder="Release year">
-          
-            <select name="author" id="book-creator__author" class="form-control">
-                <option value="author">Author</option>
-            </select>
-            <select name="genre" id="book-creator__genre" class="form-control">
-                <option value="genre">Genre</option>
-            </select>
-                <button type="submit" id="submitbook" class="btn btn-success" value="Create book">Create Book</button>
-              </div>
-            </div>
-        </form>
-         
+  <form class="form-horizontal" id="genre-form">
+   <div class="form-group">
+    <div class="col-sm-11">
+     <input class="form-control" id="genre" type="text" name="genre" placeholder="Genre">
+     <input  class="form-control" id="genreid" type="text" name="genreid" placeholder="Genre ID">
+      <button type="submit" class="btn btn-primary" value="create genre">Create Genre</button>
     </div>
-    <br><br>
-     <form class="form-horizontal">
-      <div class="col-sm-12">
-         <input class="aa form-control" type="text" id="search__form-input" placeholder="Find book"> 
-        </form>
-      </div>
-      <table class="table table-hover">
-        <thead class="table__head">
-            <tr>
-                <th scope="row">Title</td>
-                <th scope="row">Author first name</td>
-                <th scope="row">Author last name</td>
-                <th scope="row">Book ID </td>
-                <th scope="row">Release year</td>
-                <th scope="row">Author ID</td>
-                <th scope="row">Genre</td>
-                <th scope="row">Genre ID</td>
-                  <th class="table__data-delete" scope="row">x</td>
-            </tr>
-          </thead>
-        <tbody  id="table__body">
-         
-        </tbody>
-      </table>
+   </div>
+  </form>
+
+  <form class="form-horizontal" id="book-creator">
+    <div class="form-group">
+     <div class="col-sm-11">
+      <input class="form-control" id="title" name="title" type="text" placeholder="Book title">
+      <input class="form-control" id="released" name="released" type="text" placeholder="Release year">
+      <select name="author" id="book-creator__author" class="form-control">
+        <option value="author">Author</option>
+      </select>
+        <select name="genre" id="book-creator__genre" class="form-control">
+           <option value="genre">Genre</option>
+        </select>
+          <button type="submit" id="submitbook" class="btn btn-success" value="Create book">Create Book</button>
+     </div>
+    </div>
+   </form>         
   </div>
+ <br><br>
+
+ <!-- Searchbar -->
+   <form class="form-horizontal">
+    <div class="col-sm-12">
+     <input class="aa form-control" type="text" id="search__form-input" placeholder="Find book"> 
+   </form>
+    </div>
+
+ <!-- Table -->
+ <table class="table table-hover">
+    <thead class="table__head">
+     <tr>
+      <th scope="row">Title</td>
+      <th scope="row">Author first name</td>
+      <th scope="row">Author last name</td>
+      <th scope="row">Book ID </td>
+      <th scope="row">Release year</td>
+      <th scope="row">Author ID</td>
+      <th scope="row">Genre</td>
+      <th scope="row">Genre ID</td>
+      <th class="table__data-delete" scope="row">x</td>
+     </tr>
+    </thead>
+      <tbody  id="table__body">     
+        </tbody>
+ </table>
+</div>
  
 <script src="index.js"></script>  
 </body>
