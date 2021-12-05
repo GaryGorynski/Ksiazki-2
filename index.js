@@ -190,16 +190,21 @@ filterInput.addEventListener('keyup', (e) => {;
 
 
 function fetchBooks() {
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+    document.getElementById('booksOl').innerHTML = loader;
   fetch('https://wolnelektury.pl/api/books')
   .then(response => {
     return response.json();
   })
   .then(data => {
+   
     const html = data.map(book => {
       return `
-      <li><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
+      <li id="bookie"><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
       `
+     
     }).join('');
+    
     document.getElementById('booksOl').innerHTML = html;
     })
   .catch(error => console.log(error))
@@ -264,10 +269,11 @@ function fetchCollections() {
 fetchCollections();
 
 
-document.getElementById('books').addEventListener('click', function(e){ 
+document.getElementById('books').addEventListener('click', function(e){
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+    document.getElementById('bookTitle').innerHTML = loader;  
 let bookClicked= e.target
 let bookSlug = bookClicked.getAttribute('data-book-slug');
-
 fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
 .then(response => {
   return response.json();
@@ -299,7 +305,8 @@ fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
 document.getElementById('authors').addEventListener('click', function(e) {
   let authorClicked = e.target
   let authorSlug = authorClicked.getAttribute('data-author-slug');
-
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('modalAuthor').innerHTML = loader;
   fetch(`https://wolnelektury.pl/api/authors/${authorSlug}`)
   .then(response => {
     return response.json();
@@ -315,4 +322,25 @@ document.getElementById('authors').addEventListener('click', function(e) {
     
  
   })
+  
+
+
+  // Pagination ######################### //
+
+  let data = [];
+    fetch('https://wolnelektury.pl/api/books/')
+      .then(res => res.json())
+      .then(res => data = res)
+
+  
+  
+    
+  
+  
+    
+
+
+  
+
+
   
