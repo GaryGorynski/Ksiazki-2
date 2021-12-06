@@ -112,6 +112,72 @@ class UI {
       booklist = booklist.filter(book => book.bookid !== bookID);
      }
     }
+ fetchBooks() {
+      fetch('https://wolnelektury.pl/api/books')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+       
+        const html = data.map(book => {
+          return `
+          <li id="bookie"><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
+          `
+        }).join('');
+        
+        document.getElementById('booksOl').innerHTML = html;
+        })
+      .catch(error => console.log(error))
+    }
+ fetchCollections() {
+      fetch('https://wolnelektury.pl/api/collections')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const html = data.map(collection => {
+          return `
+          <li data-book-collection=${collection.title}><a href="${collection.url}" data-bs-target='#myModal'>${collection.title}</a></li>
+          `
+        }).join('');
+        document.getElementById('collectionsOl').innerHTML = html;
+      })
+      .catch(error => console.log(error))
+    }
+
+    fetchGenres() {
+      fetch('https://wolnelektury.pl/api/genres')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const html = data.map(genre => {
+    
+          return `
+          <li data-book-genre=${genre.name}>${genre.name}</li>
+          `
+        }).join('');
+        document.getElementById('genresOl').innerHTML = html;
+      })
+      .catch(error => console.log(error))
+    }
+
+  fetchAuthors() {
+      fetch('https://wolnelektury.pl/api/authors')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const html = data.map(author => {
+    
+          return `
+          <li data-book-author=${author.name}><a href="#" data-author-slug="${author.slug}" data-bs-toggle="modal" data-bs-target='#myAuthorModal'>${author.name}</a></li>
+          `
+        }).join('');
+        document.getElementById('authorsOl').innerHTML = html;
+      })
+      .catch(error => console.log(error))
+    }
   }
 
 
@@ -189,119 +255,49 @@ filterInput.addEventListener('keyup', (e) => {;
 
 
 
-function fetchBooks() {
-  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
-    document.getElementById('booksOl').innerHTML = loader;
-  fetch('https://wolnelektury.pl/api/books')
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
+document.getElementById('books-tab').addEventListener('click', function(){
+  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('booksOl').innerHTML = loader;
    
-    const html = data.map(book => {
-      return `
-      <li id="bookie"><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
-      `
-     
-    }).join('');
-    
-    document.getElementById('booksOl').innerHTML = html;
-    })
-  .catch(error => console.log(error))
-}
-fetchBooks();
-
-
-
-function fetchAuthors() {
-  fetch('https://wolnelektury.pl/api/authors')
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    const html = data.map(author => {
-
-      return `
-      <li data-book-author=${author.name}><a href="#" data-author-slug="${author.slug}" data-bs-toggle="modal" data-bs-target='#myAuthorModal'>${author.name}</a></li>
-      `
-    }).join('');
-    document.getElementById('authorsOl').innerHTML = html;
-  })
-  .catch(error => console.log(error))
-}
-fetchAuthors();
-
-
-function fetchGenres() {
-  fetch('https://wolnelektury.pl/api/genres')
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    const html = data.map(genre => {
-
-      return `
-      <li data-book-genre=${genre.name}>${genre.name}</li>
-      `
-    }).join('');
-    document.getElementById('genresOl').innerHTML = html;
-  })
-  .catch(error => console.log(error))
-}
-fetchGenres();
-
-
-function fetchCollections() {
-  fetch('https://wolnelektury.pl/api/collections')
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    const html = data.map(collection => {
-      return `
-      <li data-book-collection=${collection.title}><a href="${collection.url}" data-bs-target='#myModal'>${collection.title}</a></li>
-      `
-    }).join('');
-    document.getElementById('collectionsOl').innerHTML = html;
-  })
-  .catch(error => console.log(error))
-}
-fetchCollections();
-
-
-document.getElementById('books').addEventListener('click', function(e){
-  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
-    document.getElementById('bookTitle').innerHTML = loader;  
-let bookClicked= e.target
-let bookSlug = bookClicked.getAttribute('data-book-slug');
-fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
-.then(response => {
-  return response.json();
-})
-.then(data => {
-  if(data.audio_length !== ""){ 
-    document.getElementById('modalAudio').href = data.media[0].url
-    document.getElementById('modalAudioType').innerHTML = "Typ pliku: " + data.media[0].type
-    document.getElementById('modalAudioSpeaker').innerHTML = "Czyta: " + data.media[0].artist
-    document.getElementById('modalAudioLength').innerHTML = "Długość trwania: " + data.audio_length
-  } else {
-    document.getElementById('modalAudio').href = "#"
-    document.getElementById('modalAudioType').innerHTML = "Brak audiobooka"
-    document.getElementById('modalAudioSpeaker').innerHTML = ""
-    document.getElementById('modalAudioLength').innerHTML = ""
-    
-  }
-  document.getElementById('bookTitle').innerHTML = data.title;
-  document.getElementById('modalBookAuth').innerHTML = 'Autor: ' + data.authors[0].name;
-  document.getElementById('modalBookGenre').innerHTML = 'Gatunki: ' + data.genres[0].name
-  document.getElementById('modalBookLang').innerHTML = 'Język:' + ' ' + data.language;
-  document.getElementById('modalBookImg').src = data.cover;
-  
-
-})
+ui.fetchBooks();
 });
 
-
+document.getElementById('books').addEventListener('click',function(e){
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('bookTitle').innerHTML = loader;
+  let bookClicked= e.target
+  let bookSlug = bookClicked.getAttribute('data-book-slug');
+  fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    if(data.audio_length !== ""){ 
+      document.getElementById('modalAudio').href = data.media[0].url
+      document.getElementById('modalAudioType').innerHTML = "Typ pliku: " + data.media[0].type
+      document.getElementById('modalAudioSpeaker').innerHTML = "Czyta: " + data.media[0].artist
+      document.getElementById('modalAudioLength').innerHTML = "Długość trwania: " + data.audio_length
+    } else {
+      document.getElementById('modalAudio').href = "#"
+      document.getElementById('modalAudioType').innerHTML = "Brak audiobooka"
+      document.getElementById('modalAudioSpeaker').innerHTML = ""
+      document.getElementById('modalAudioLength').innerHTML = ""
+      
+    }
+    document.getElementById('bookTitle').innerHTML = data.title;
+    document.getElementById('modalBookAuth').innerHTML = 'Autor: ' + data.authors[0].name;
+    document.getElementById('modalBookGenre').innerHTML = 'Gatunki: ' + data.genres[0].name
+    document.getElementById('modalBookLang').innerHTML = 'Język:' + ' ' + data.language;
+    document.getElementById('modalBookImg').src = data.cover;
+    
+   
+  })
+})
+document.getElementById('authors-tab').addEventListener('click',function(e){
+  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('authorsOl').innerHTML = loader;
+  ui.fetchAuthors();
+})
 document.getElementById('authors').addEventListener('click', function(e) {
   let authorClicked = e.target
   let authorSlug = authorClicked.getAttribute('data-author-slug');
@@ -316,23 +312,19 @@ document.getElementById('authors').addEventListener('click', function(e) {
     document.getElementById('modalAuthorDesc').innerHTML = data.description
   })
   })
-
-  document.getElementById('collections').addEventListener('click',function(e) {
-
-    
- 
+  document.getElementById('genres-tab').addEventListener('click',function() {
+    ui.fetchGenres()
+     })
+  document.getElementById('collections-tab').addEventListener('click',function() {
+    let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('collectionsOl').innerHTML = loader;
+ ui.fetchCollections()
   })
   
 
 
   // Pagination ######################### //
 
-  let data = [];
-    fetch('https://wolnelektury.pl/api/books/')
-      .then(res => res.json())
-      .then(res => data = res)
-
-  
   
     
   
@@ -343,4 +335,13 @@ document.getElementById('authors').addEventListener('click', function(e) {
   
 
 
+  /* Na póżniej   
   
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+    document.getElementById('booksOl').innerHTML = loader;
+  
+  
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+    document.getElementById('bookTitle').innerHTML = loader; 
+  
+  */
