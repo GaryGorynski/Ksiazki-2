@@ -89,3 +89,30 @@ tr, th {
     }
   }
 
+  .booksTabBtns {
+    display: flex;
+    justify-content: space-around;
+    border: 2px solid white;
+    width: 30%;
+  }
+  .as{
+    display: flex;
+    align-items: center;
+    
+  }
+
+ 
+
+  .buttons {
+    display: flex;
+    width: 500px;
+    justify-content: space-around;
+  }
+
+  .booki {
+   
+   
+    width: 300px;
+    height: 300px;
+    margin-top: 0px;
+  }

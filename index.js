@@ -1,6 +1,30 @@
 let authors = [];
 let genres = [];
 let booklist = [];
+let data = 
+fetch('https://wolnelektury.pl/api/books/')
+.then(response => { 
+    return response.json();
+}).then(response => { 
+          data = response 
+          paginatedData = createPaginatedData(data);})
+let currentPage = 0;
+let perPage = 10;
+let paginatedData = [];
+let totalPages = 0;
+function createPaginatedData(data) {
+    const paginated = [];
+    totalPages = Math.floor(data.length / perPage);
+
+    for(var i = 0; i < totalPages; i++) {
+      const start = i * perPage;
+      paginated.push(data.slice(start, start + perPage));
+    }
+
+    return paginated;
+  }
+  
+  
 
 
 class Author  {
@@ -117,14 +141,13 @@ class UI {
       .then(response => {
         return response.json();
       })
-      .then(data => {
-       
+      .then(data => {     
         const html = data.map(book => {
           return `
           <li id="bookie"><a href="#" data-bs-toggle="modal" data-bs-target='#myBooksModal' data-book-slug="${book.slug}">${book.title}</a></li>
           `
         }).join('');
-        
+      
         document.getElementById('booksOl').innerHTML = html;
         })
       .catch(error => console.log(error))
@@ -178,9 +201,20 @@ class UI {
       })
       .catch(error => console.log(error))
     }
+    showBooks(html) {
+     
+      let htmls = html.map(book => {
+        return `<li id="bookie"><a href="#" data-bs-toggle="modal"  data-bs-target="#myBooksModal" data-book-slug="${book.slug}">${book.title}</a></<li>`
+      })
+      document.getElementById('booksOl').innerHTML = htmls
+    }
+
+    setBtns() {
+
+    }
+    
   }
-
-
+ 
 const ui = new UI();
 //submit author 
 document.getElementById('author-form').addEventListener('submit', function(e){
@@ -252,19 +286,61 @@ filterInput.addEventListener('keyup', (e) => {;
   e.preventDefault();
 });
 
+document.getElementById('books-tab').addEventListener('click', function(){ 
+document.getElementById('last-page').innerHTML = paginatedData.length-1;
 
+ui.showBooks(paginatedData[0]);
+ });
 
+ document.getElementById('first-page').addEventListener('click', function() {
+ currentPage = 0;
+ ui.showBooks(paginatedData[0])
+ });
 
-document.getElementById('books-tab').addEventListener('click', function(){
-  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
-  document.getElementById('booksOl').innerHTML = loader;
-   
-ui.fetchBooks();
+ document.getElementById('num2').addEventListener('click', function() {
+  currentPage = 1;
+  ui.showBooks(paginatedData[1])
 });
 
-document.getElementById('books').addEventListener('click',function(e){
-  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
-  document.getElementById('bookTitle').innerHTML = loader;
+document.getElementById('num3').addEventListener('click', function() {
+  currentPage = 2;
+  ui.showBooks(paginatedData[2])
+});
+
+document.getElementById('num4').addEventListener('click', function() {
+  currentPage = 3;
+  ui.showBooks(paginatedData[3])
+});
+
+document.getElementById('num5').addEventListener('click', function() {
+  currentPage = 4;
+  ui.showBooks(paginatedData[4])
+});
+
+ document.getElementById('last-page').addEventListener('click',function(){
+   currentPage = paginatedData.length-1
+
+ui.showBooks(paginatedData[paginatedData.length-1])
+ })
+
+
+ document.getElementById('prev-page').addEventListener('click',function(){
+  if(currentPage != 0)
+  currentPage = currentPage -1
+ 
+ui.showBooks(paginatedData[currentPage])
+ })
+ document.getElementById('next-page').addEventListener('click',function(){
+  if(currentPage != paginatedData.length-1)
+  currentPage = currentPage +1
+ 
+ui.showBooks(paginatedData[currentPage])
+ })
+
+
+document.getElementById('booksOl').addEventListener('click',function(e){
+ // let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+ // document.getElementById('bookTitle').innerHTML = loader;
   let bookClicked= e.target
   let bookSlug = bookClicked.getAttribute('data-book-slug');
   fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
@@ -288,16 +364,18 @@ document.getElementById('books').addEventListener('click',function(e){
     document.getElementById('modalBookAuth').innerHTML = 'Autor: ' + data.authors[0].name;
     document.getElementById('modalBookGenre').innerHTML = 'Gatunki: ' + data.genres[0].name
     document.getElementById('modalBookLang').innerHTML = 'Język:' + ' ' + data.language;
-    document.getElementById('modalBookImg').src = data.cover;
-    
-   
+    document.getElementById('modalBookImg').src = data.cover;   
   })
 })
+
+
 document.getElementById('authors-tab').addEventListener('click',function(e){
-  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
-  document.getElementById('authorsOl').innerHTML = loader;
+  //let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+  //document.getElementById('authorsOl').innerHTML = loader;
   ui.fetchAuthors();
 })
+
+
 document.getElementById('authors').addEventListener('click', function(e) {
   let authorClicked = e.target
   let authorSlug = authorClicked.getAttribute('data-author-slug');
@@ -312,9 +390,13 @@ document.getElementById('authors').addEventListener('click', function(e) {
     document.getElementById('modalAuthorDesc').innerHTML = data.description
   })
   })
+
+
   document.getElementById('genres-tab').addEventListener('click',function() {
     ui.fetchGenres()
      })
+
+
   document.getElementById('collections-tab').addEventListener('click',function() {
     let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
   document.getElementById('collectionsOl').innerHTML = loader;
@@ -323,25 +405,11 @@ document.getElementById('authors').addEventListener('click', function(e) {
   
 
 
-  // Pagination ######################### //
-
-  
-    
-  
-  
-    
 
 
-  
 
 
-  /* Na póżniej   
-  
-  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
-    document.getElementById('booksOl').innerHTML = loader;
-  
-  
-  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
-    document.getElementById('bookTitle').innerHTML = loader; 
-  
-  */
+
+
+
+

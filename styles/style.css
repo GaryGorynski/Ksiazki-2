@@ -125,4 +125,38 @@ tr, th {
             transform: rotate(360deg);
   }
 }
+
+.booksTabBtns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border: 2px solid white;
+  width: 30%;
+}
+
+.as {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 500px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.booki {
+  width: 300px;
+  height: 300px;
+  margin-top: 0px;
+}
 /*# sourceMappingURL=style.css.map */

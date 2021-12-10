@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="/styles/bootstrap.css">
     <link rel="stylesheet" href="styles/style.css">
     <script src="bootstrap.js"></script>
     <title>Ksiazki</title>
@@ -15,7 +15,7 @@
   <!-- Pills/Tabs -->
     <ul class="nav nav-pills nav-fill mb-3" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="books-tab" data-bs-toggle="tab" data-bs-target="#books" type="button" role="tab" aria-controls="books" aria-selected="true">Books</button>
+        <button class="nav-link" id="books-tab" data-bs-toggle="tab" data-bs-target="#books" type="button" role="tab" aria-controls="books" aria-selected="true">Books</button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="authors-tab" data-bs-toggle="tab" data-bs-target="#authors" type="button" role="tab" aria-controls="authors" aria-selected="false">Authors</button>
@@ -27,10 +27,26 @@
         <button class="nav-link" id="collections-tab" data-bs-toggle="tab" data-bs-target="#collections" type="button" role="tab" aria-controls="collections" aria-selected="false">Collections</button>
       </li>
     </ul>
+
+    <!-- Tabs inside-->
     <div class="tab-content">
-      <div class="tab-pane  show p-3" id="books" role="tabpanel" aria-labelledby="books-tab">
-        <ol id='booksOl' class="booki" start="1">     
+      <div class="tab-pane  show p-3 dupa" id="books" role="tabpanel" aria-labelledby="books-tab">
+        <div class="booki" >
+        <ol id='booksOl' start="1">     
         </ol>
+  
+      </div>
+      <div class="buttons">
+        <button type="button" class="button btn-secondary" id="prev-page">Previous page</button>
+        <button type="button" class="button btn-secondary" id="first-page">1</button>
+        <button type="button" class="button btn-secondary" id="num2">2</button>
+        <button type="button" class="button btn-secondary" id="num3">3</button>
+        <button type="button" class="button btn-secondary" id="num4">4</button>
+        <button type="button" class="button btn-secondary" id="num5">5</button>
+        <button type="button" class="button btn-secondary" id="num5">...</button>
+        <button type="button" class="button btn-secondary" id="last-page">Last</button>
+        <button type="button" class="button btn-secondary" id="next-page">Next page</button>
+      </div>
       </div>
       <div class="tab-pane" id="authors" role="tabpanel" aria-labelledby="authors-tab">
         <ol id='authorsOl' start="1">
