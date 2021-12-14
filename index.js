@@ -285,7 +285,7 @@ filterInput.addEventListener('keyup', (e) => {;
   ui.displayBooks(filteredBooks);
   e.preventDefault();
 });
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 document.getElementById('books-tab').addEventListener('click', function(){ 
 document.getElementById('last-page').innerHTML = paginatedData.length-1;
 
@@ -299,6 +299,7 @@ ui.showBooks(paginatedData[0]);
 
  document.getElementById('num2').addEventListener('click', function() {
   currentPage = 1;
+  
   ui.showBooks(paginatedData[1])
 });
 
@@ -316,10 +317,17 @@ document.getElementById('num5').addEventListener('click', function() {
   currentPage = 4;
   ui.showBooks(paginatedData[4])
 });
+document.getElementById('num6').addEventListener('click', function() {
+  currentPage = 4;
+  ui.showBooks(paginatedData[5])
+});
+document.getElementById('num7').addEventListener('click', function() {
+  currentPage = 4;
+  ui.showBooks(paginatedData[6])
+});
 
  document.getElementById('last-page').addEventListener('click',function(){
    currentPage = paginatedData.length-1
-
 ui.showBooks(paginatedData[paginatedData.length-1])
  })
 
@@ -337,10 +345,22 @@ ui.showBooks(paginatedData[currentPage])
 ui.showBooks(paginatedData[currentPage])
  })
 
+document.getElementById('books').addEventListener('click',function(){
+  if(currentPage === paginatedData.length-1) {document.getElementById('next-page').style.display = "none"}
+   else document.getElementById('next-page').style.display = "block"
+
+   if(currentPage === 0) {document.getElementById('prev-page').style.display = "none" }
+   else document.getElementById('prev-page').style.display = "block"
+ })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 document.getElementById('booksOl').addEventListener('click',function(e){
  // let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
  // document.getElementById('bookTitle').innerHTML = loader;
+ 
   let bookClicked= e.target
   let bookSlug = bookClicked.getAttribute('data-book-slug');
   fetch(`https://wolnelektury.pl/api/books/${bookSlug}`)
