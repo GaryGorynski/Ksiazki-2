@@ -20,12 +20,10 @@ function createPaginatedData(data) {
       const start = i * perPage;
       paginated.push(data.slice(start, start + perPage));
     }
-
+    
     return paginated;
   }
   
-  
-
 
 class Author  {
     constructor(authorfname, authorlname, authorid) {
@@ -202,18 +200,26 @@ class UI {
       .catch(error => console.log(error))
     }
     showBooks(html) {
-     
+      
+      
       let htmls = html.map(book => {
         return `<li id="bookie"><a href="#" data-bs-toggle="modal"  data-bs-target="#myBooksModal" data-book-slug="${book.slug}">${book.title}</a></<li>`
       })
+ 
       document.getElementById('booksOl').innerHTML = htmls
     }
 
-    setBtns() {
-
+    removeButtons() {
+      while(buttonWrapper.firstChild) 
+        buttonWrapper.firstChild.remove();
+      
     }
-    
-  }
+
+   
+
+
+}  
+
  
 const ui = new UI();
 //submit author 
@@ -285,81 +291,89 @@ filterInput.addEventListener('keyup', (e) => {;
   ui.displayBooks(filteredBooks);
   e.preventDefault();
 });
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-document.getElementById('books-tab').addEventListener('click', function(){ 
-document.getElementById('last-page').innerHTML = paginatedData.length-1;
+
+
+document.getElementById('books-tab').addEventListener('click', function(){  
+  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+      document.getElementById('booksOl').innerHTML = loader;
+ document.getElementById('last-page').innerHTML = paginatedData.length-1;
+ if(currentPage === 0) {document.getElementById('prev-page').style.display = "none" }
+ else document.getElementById('prev-page').style.display = "block"
+
+
+
 
 ui.showBooks(paginatedData[0]);
  });
 
- document.getElementById('first-page').addEventListener('click', function() {
- currentPage = 0;
- ui.showBooks(paginatedData[0])
- });
+ const buttonWrapper = document.getElementById('button-wrapper');
+ 
+ const onPaginationButtonClick = (e) => {
+   const pageNumber = parseInt(e.target.value);
+   ui.showBooks(paginatedData[pageNumber-1]) 
+   ui.removeButtons();
+    
+const PageNumberValidation = pageNumber - 5 < 0 ? 1 : pageNumber - 4;
+    generatePaginationButtons(PageNumberValidation);
+ };
 
- document.getElementById('num2').addEventListener('click', function() {
-  currentPage = 1;
-  
-  ui.showBooks(paginatedData[1])
-});
+    const generatePaginationButtons = (pageNumber = 1) => {
+     const lastPage = pageNumber + 9;
 
-document.getElementById('num3').addEventListener('click', function() {
-  currentPage = 2;
-  ui.showBooks(paginatedData[2])
-});
+    for(let i = pageNumber; i <= lastPage ; i++) {
+      
+    const buttonElement = document.createElement('button')
+    buttonElement.innerHTML = i;
+    buttonElement.className = 'button btn-secondary'
+    buttonElement.value = i;
+    buttonElement.addEventListener('click', function(event){
+      onPaginationButtonClick(event);
+     currentPage = parseInt(this.value);
+    });
+    buttonWrapper.appendChild(buttonElement)
+    };
+}; 
+generatePaginationButtons();
 
-document.getElementById('num4').addEventListener('click', function() {
-  currentPage = 3;
-  ui.showBooks(paginatedData[3])
-});
-
-document.getElementById('num5').addEventListener('click', function() {
-  currentPage = 4;
-  ui.showBooks(paginatedData[4])
-});
-document.getElementById('num6').addEventListener('click', function() {
-  currentPage = 4;
-  ui.showBooks(paginatedData[5])
-});
-document.getElementById('num7').addEventListener('click', function() {
-  currentPage = 4;
-  ui.showBooks(paginatedData[6])
-});
 
  document.getElementById('last-page').addEventListener('click',function(){
    currentPage = paginatedData.length-1
+
 ui.showBooks(paginatedData[paginatedData.length-1])
  })
 
-
  document.getElementById('prev-page').addEventListener('click',function(){
-  if(currentPage != 0)
+  if(currentPage != 0 )
   currentPage = currentPage -1
- 
 ui.showBooks(paginatedData[currentPage])
  })
+
  document.getElementById('next-page').addEventListener('click',function(){
-  if(currentPage != paginatedData.length-1)
-  currentPage = currentPage +1
- 
+  if(currentPage != paginatedData.length-1)   currentPage = currentPage +1  
 ui.showBooks(paginatedData[currentPage])
  })
+
+
+
+
 
 document.getElementById('books').addEventListener('click',function(){
   if(currentPage === paginatedData.length-1) {document.getElementById('next-page').style.display = "none"}
    else document.getElementById('next-page').style.display = "block"
 
-   if(currentPage === 0) {document.getElementById('prev-page').style.display = "none" }
+   if(currentPage <=1) {document.getElementById('prev-page').style.display = "none" }
    else document.getElementById('prev-page').style.display = "block"
+
+   
  })
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
 document.getElementById('booksOl').addEventListener('click',function(e){
- // let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
- // document.getElementById('bookTitle').innerHTML = loader;
+  let loader = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('bookTitle').innerHTML = loader;
  
   let bookClicked= e.target
   let bookSlug = bookClicked.getAttribute('data-book-slug');
@@ -390,8 +404,8 @@ document.getElementById('booksOl').addEventListener('click',function(e){
 
 
 document.getElementById('authors-tab').addEventListener('click',function(e){
-  //let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
-  //document.getElementById('authorsOl').innerHTML = loader;
+  let loader = `<div class="lds-ring" style="margin-left: 650px"><div></div><div></div><div></div><div></div></div>`
+  document.getElementById('authorsOl').innerHTML = loader;
   ui.fetchAuthors();
 })
 
@@ -423,12 +437,6 @@ document.getElementById('authors').addEventListener('click', function(e) {
  ui.fetchCollections()
   })
   
-
-
-
-
-
-
 
 
 

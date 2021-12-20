@@ -149,14 +149,23 @@ tr, th {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 500px;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  width: 750px;
 }
 
 .booki {
-  width: 300px;
+  width: 900px;
   height: 300px;
   margin-top: 0px;
+}
+
+.button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 420px;
+}
+
+.button-wrapper .button {
+  width: 100px;
 }
 /*# sourceMappingURL=style.css.map */

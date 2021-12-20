@@ -105,14 +105,24 @@ tr, th {
 
   .buttons {
     display: flex;
-    width: 500px;
-    justify-content: space-around;
+    width: 750px;
+   
   }
 
   .booki {
    
    
-    width: 300px;
+    width: 900px;
     height: 300px;
     margin-top: 0px;
+    
+  }
+
+  .button-wrapper {
+
+   display: flex;
+    width: 420px;
+    .button {
+      width: 100px;
+    }
   }
